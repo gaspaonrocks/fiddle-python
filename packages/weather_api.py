@@ -17,11 +17,14 @@ class City:
         "lat": 44.833328
     }
 
-    def __init__(self, name):
+    def __init__(self, name = None):
         print("This is the city constructor method")
         # TODO: get name/coordinates from GPS to list of city, 
-        # => map method and return the coty we're in
-        self.name = name
+        # => map method and return the city we're in
+        if name == None:
+            return
+        else:
+            self.name = name
     
     def getCoord(self):
         # accessing a property of an object
@@ -31,7 +34,8 @@ class City:
     def getWeatherData(self):
         params = {
             "id": {self.id},
-            "APPID": {apiKey}
+            "APPID": {apiKey},
+            "units": "metric"
         }
 
         # parameters must ALL be fulfilled and affected to their real names
@@ -39,8 +43,12 @@ class City:
 
         data = r.json()
 
-        print(data)
+        return self.sendMessage(data)
+    
+    def sendMessage(self, data):
+        temp = data["main"]["temp"]
+        weather = data["weather"][0]["description"]
+        message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}°C.\r\nThe weather: {weather}.\r\nHave a great day !"
 
-city = City("Bordeaux")
-city.getCoord()
-city.getWeatherData()
+        return message
+        # print(message)
