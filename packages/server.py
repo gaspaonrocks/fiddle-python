@@ -12,12 +12,6 @@ class Server(BaseHTTPRequestHandler):
     def do_GET(self):
         self.respond()
 
-    def handle_http(self):
-        return
-
-    def respond(self):
-        return
-
     def handle_http(self, status, content_type):
         self.send_response(status)
         self.send_header("Content-type", content_type)

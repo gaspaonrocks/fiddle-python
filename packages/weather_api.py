@@ -1,4 +1,6 @@
 import requests
+import time
+import json
 
 apiKey = "1bb8b9643fcf40f10d845bc78c254b76"
 # to get the weather during the day 
@@ -48,7 +50,33 @@ class City:
     def sendMessage(self, data):
         temp = data["main"]["temp"]
         weather = data["weather"][0]["description"]
-        message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}°C.\r\nThe weather: {weather}.\r\nHave a great day !"
+        message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}&#176;C.\r\nThe weather: {weather}.\r\nHave a great day !"
+        # message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}°C.\r\nThe weather: {weather}.\r\nHave a great day !"
 
         return message
-        # print(message)
+
+class CacheManager:
+    cached = False
+    value = None
+    registeredTime = None
+
+    def __init__(self, cached = False, value = None, registeredTime = None):
+        self.cached = cached
+        self.value = value
+        self.registeredTime = registeredTime
+        return
+
+    def getCurrentTime(self):
+        return time.asctime()
+    
+    def getRegisteredTime(self):
+        return self.registeredTime if self.registeredTime != None else "no registered time" 
+
+    def getTimeDiff(self):
+        diff = None
+
+        if self.registeredTime == None:
+            return f"{json.dumps(self.getCurrentTime())}"
+        else:
+            diff = "hello"
+            return f"{json.dumps(diff)}"
