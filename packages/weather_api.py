@@ -63,8 +63,7 @@ class CacheManager:
     def __init__(self, cached = False, value = None, registeredTime = None):
         self.cached = cached
         self.value = value
-        self.registeredTime = registeredTime
-        return
+        self.registeredTime = self.getCurrentTime()
 
     def getCurrentTime(self):
         return time.asctime()
@@ -72,11 +71,15 @@ class CacheManager:
     def getRegisteredTime(self):
         return self.registeredTime if self.registeredTime != None else "no registered time" 
 
+    # there's some memoization bullcrap going on
     def getTimeDiff(self):
         diff = None
+        print(self.registeredTime != None)
 
         if self.registeredTime == None:
-            return f"{json.dumps(self.getCurrentTime())}"
+            print("hello")
+            self.registeredTime = self.getCurrentTime()
+            return f"{json.dumps(self.registeredTime)}"
         else:
-            diff = "hello"
-            return f"{json.dumps(diff)}"
+            print("not Hello !")
+            return f"{json.dumps(self.getCurrentTime())}"

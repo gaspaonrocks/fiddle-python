@@ -1,16 +1,19 @@
 from weather_api import City
 from weather_api import CacheManager
 
+# instanciating here to prevent from resetting values each request
+city = City()
+cacheMan = CacheManager()
+
 def getCity():
-  city = City()
   return city.getWeatherData()
 
 def getTime():
-  cacheMan = CacheManager()
   return cacheMan.getTimeDiff()
 
 routes = {
   "/" : getCity(),
   "/goodbye" : "Goodbye World",
-  "/time": getTime()
+  "/time": getTime(),
+  "/favicon.ico": "nothing" #prevents the browser to look for favicon.ico and crash
 }
