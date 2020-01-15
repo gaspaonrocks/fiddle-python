@@ -1,6 +1,6 @@
 import requests
-import time
 import json
+from cache_manager import CacheManager
 
 apiKey = "1bb8b9643fcf40f10d845bc78c254b76"
 # to get the weather during the day 
@@ -18,6 +18,7 @@ class City:
         "lon": -0.56667,
         "lat": 44.833328
     }
+    cacheManager = CacheManager()
 
     def __init__(self, name = None):
         print("This is the city constructor method")
@@ -45,39 +46,13 @@ class City:
 
         data = r.json()
 
-        return self.sendMessage(data)
+        self.cacheManager.registerValue(key = "forecast", value = data)
+
+        return self.sendMessage(self.cacheManager.getValue(key = "forecast"))
     
     def sendMessage(self, data):
         temp = data["main"]["temp"]
         weather = data["weather"][0]["description"]
-        message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}&#176;C.\r\nThe weather: {weather}.\r\nHave a great day !"
+        message = f"Hello,<br>This is the weather forecast for the day.<br>In {self.name}, it will be {temp}&#176;C.<br>The weather: {weather}.<br>Have a great day !"
 
         return message
-
-class CacheManager:
-    cached = False
-    value = None
-    registeredTime = None
-
-    def __init__(self, cached = False, value = None, registeredTime = None):
-        self.cached = cached
-        self.value = value
-        self.registeredTime = None
-
-    def getCurrentTime(self):
-        print("this is the time")
-        return time.asctime()
-    
-    def getRegisteredTime(self):
-        return self.registeredTime if self.registeredTime != None else self.getCurrentTime() 
-
-    def getTimeDiff(self):
-        print(self.registeredTime != None)
-
-        if self.registeredTime == None:
-            print("hello")
-            self.registeredTime = self.getCurrentTime()
-            return f"{json.dumps(self.registeredTime)}"
-        else:
-            diff = self.getCurrentTime() - self.getRegisteredTime
-            return f"{json.dumps(diff)}"
