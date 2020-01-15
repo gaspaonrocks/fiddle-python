@@ -16,7 +16,9 @@ class Server(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-type", content_type)
         self.end_headers()
-        route_content = routes[self.path]
+        # You need to not execute the function on the route, but here, 
+        # so only point to a reference in the routing
+        route_content = routes[self.path]()
         return bytes(route_content, "UTF-8")
     
     def respond(self):

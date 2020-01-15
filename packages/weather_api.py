@@ -51,7 +51,6 @@ class City:
         temp = data["main"]["temp"]
         weather = data["weather"][0]["description"]
         message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}&#176;C.\r\nThe weather: {weather}.\r\nHave a great day !"
-        # message = f"Hello, \r\nThis is the weather forecast for the day.\r\nIn {self.name}, it will be {temp}°C.\r\nThe weather: {weather}.\r\nHave a great day !"
 
         return message
 
@@ -63,17 +62,16 @@ class CacheManager:
     def __init__(self, cached = False, value = None, registeredTime = None):
         self.cached = cached
         self.value = value
-        self.registeredTime = self.getCurrentTime()
+        self.registeredTime = None
 
     def getCurrentTime(self):
+        print("this is the time")
         return time.asctime()
     
     def getRegisteredTime(self):
-        return self.registeredTime if self.registeredTime != None else "no registered time" 
+        return self.registeredTime if self.registeredTime != None else self.getCurrentTime() 
 
-    # there's some memoization bullcrap going on
     def getTimeDiff(self):
-        diff = None
         print(self.registeredTime != None)
 
         if self.registeredTime == None:
@@ -81,5 +79,5 @@ class CacheManager:
             self.registeredTime = self.getCurrentTime()
             return f"{json.dumps(self.registeredTime)}"
         else:
-            print("not Hello !")
-            return f"{json.dumps(self.getCurrentTime())}"
+            diff = self.getCurrentTime() - self.getRegisteredTime
+            return f"{json.dumps(diff)}"
