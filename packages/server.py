@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 
-from routes.routes import routes
+from routes.routes import returnMethod
 
 class Server(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -18,7 +18,7 @@ class Server(BaseHTTPRequestHandler):
         self.end_headers()
         # You need to not execute the function on the route, but here, 
         # so only point to a reference in the routing
-        route_content = routes[self.path]()
+        route_content = returnMethod(self.path)
         return bytes(route_content, "UTF-8")
     
     def respond(self):

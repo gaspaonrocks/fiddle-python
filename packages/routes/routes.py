@@ -11,9 +11,11 @@ def getCity():
 def getTime():
   return cacheMan.getTimeDiff()
 
-routes = {
-  "/" : getCity,
-  "/goodbye" : "Goodbye World",
-  "/time": getTime,
-  "/favicon.ico": "nothing" #prevents the browser to look for favicon.ico and crash
-}
+def returnMethod(arg: str):
+  routes = {
+    "/" : getCity,
+    "/goodbye" : "Goodbye World",
+    "/time": getTime,
+    "/favicon.ico": "nothing" #prevents the browser to look for favicon.ico and crash
+  }
+  return routes.get(arg, lambda: "Invalid route")()
