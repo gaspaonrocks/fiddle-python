@@ -14,8 +14,7 @@ def getTime():
 def returnMethod(arg: str):
   routes = {
     "/" : getCity,
-    "/goodbye" : "Goodbye World",
     "/time": getTime,
-    "/favicon.ico": "nothing" #prevents the browser to look for favicon.ico and crash
+    #"/favicon.ico": None #prevents the browser to look for favicon.ico and crash #makes the script bug because it tries to call the value associated
   }
   return routes.get(arg, lambda: "Invalid route")()

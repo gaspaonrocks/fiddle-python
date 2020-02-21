@@ -1,10 +1,23 @@
-from weather_api import CacheManager
 # basic interactive greeting script
 def helloWorld(name = "Sacha"):
     print(f"Hello, {name}")
 
-helloWorld("blyat")
+def goodbyeWorld(name = "Sacha"):
+    return f"Goodbye, {name}"
 
-cache = CacheManager()
+blabla = {
+    "hello": helloWorld,
+    "goodbye": goodbyeWorld,
+    "test": "tests"
+}
 
-print(cache.getCurrentTime())
+target1: str = "hello"
+target2: str = "goodbye"
+
+blabla["hello"]("test1")
+blabla[target1]("test2")
+
+result1 = blabla["goodbye"]("test3")
+result2 = blabla[target2]("test4")
+
+print(result1, result2)
